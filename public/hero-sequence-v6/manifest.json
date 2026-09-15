@@ -1,0 +1,17 @@
+{
+  "frames": 16,
+  "sourceBytes": 213298467,
+  "desktopBytes": 18181922,
+  "mobileBytes": 2817862,
+  "desktopDimensions": [
+    3840,
+    2160
+  ],
+  "mobileDimensions": [
+    1280,
+    720
+  ],
+  "desktopQuality": 96,
+  "mobileQuality": 90,
+  "assetVersion": 6
+}
