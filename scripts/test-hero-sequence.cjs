@@ -7,7 +7,7 @@ const compiled = ts.transpileModule(fs.readFileSync('app/components/PlantationSe
   compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, target: ts.ScriptTarget.ES2020, esModuleInterop: true },
 }).outputText;
 
-function harness({ enabled = true, mobile = false, fail = -1 } = {}) {
+function harness({ enabled = true, mobile = false, fail = -1, basePath = '' } = {}) {
   const chapters = [], requests = [], draws = [], raf = new Map(), listeners = new Map();
   let cleanup, resize, visibility, id = 0, position = 0, frameTime = 0;
   const context = { globalAlpha: 1, drawImage(image, ...bounds) { draws.push({ src: image.src, alpha: this.globalAlpha, bounds }); } };
@@ -32,6 +32,7 @@ function harness({ enabled = true, mobile = false, fail = -1 } = {}) {
   const exports = {};
   vm.runInNewContext(compiled, {
     exports,
+    process: { env: { NEXT_PUBLIC_BASE_PATH: basePath } },
     require(name) {
       if (name.endsWith('manifest.json')) return JSON.parse(fs.readFileSync('public/hero-sequence-v6/manifest.json', 'utf8'));
       if (name === 'react') return { useRef: () => ({ current: canvas }), useEffect: effect => { cleanup = effect(); } };
@@ -105,6 +106,10 @@ async function main() {
   compact.scroll(3 / 15); await compact.flush();
   assert.equal(compact.canvas.style.opacity, '1', 'A failed image must retain a usable nearby frame.');
   compact.cleanup();
+
+  const pages = harness({ basePath: '/KPL.lk' }); await pages.flush();
+  assert.ok(pages.requests.every(url => url.startsWith('/KPL.lk/hero-sequence-v6/')), 'Pages frames need the repository prefix.');
+  pages.cleanup();
 
   const staticMode = harness({ enabled: false }); await staticMode.flush();
   assert.equal(staticMode.requests.length, 0);

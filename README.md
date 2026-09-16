@@ -57,3 +57,7 @@ node scripts/test-hero-sequence.cjs
 These tests simulate scrolling, loading, resizing and cleanup; they are not a substitute for visual testing in a real browser.
 
 The source video is 720p at 24 fps. `output/video/plantation-upscaled-4k.mp4` is a silent 3840 x 2160 copy produced using FFmpeg Lanczos scaling and mild unsharp filtering, not native 4K or AI detail reconstruction. Full-size extracted PNGs are in `output/video/frames`; web assets are in `public/hero-sequence-v6`. Run `node scripts/prepare-upscaled-hero.cjs output/video/frames` to regenerate the web assets.
+
+## GitHub Pages
+
+The Pages workflow builds a static export with `GITHUB_PAGES=true` and the `/KPL.lk` base path, then publishes `out/`. In repository Settings > Pages, use GitHub Actions as the build source. Pushes to main deploy automatically. Local `npm run dev` keeps the normal root URL. Expected public URL: https://pcg0121.github.io/KPL.lk/

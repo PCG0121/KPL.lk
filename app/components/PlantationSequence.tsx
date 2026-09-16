@@ -12,6 +12,8 @@ type Props = {
   onChapterChange?: (chapter: number) => void;
 };
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 const COUNT = sequence.frames;
 const CHAPTERS = ['01 / A SEED OF POSSIBILITY', '02 / NURTURING TOMORROW', '03 / A FUTURE IN EVERY HARVEST'];
 
@@ -126,7 +128,7 @@ export default function PlantationSequence({ enabled, track, progress, chapter, 
         };
         image.onload = () => { image.decode().then(() => finish(true)).catch(() => finish(image.naturalWidth > 0)); };
         image.onerror = () => finish(false);
-        image.src = `/hero-sequence-v6/${String(index + 1).padStart(2, '0')}${mobile ? '-mobile' : ''}.webp?v=6`;
+        image.src = `${basePath}/hero-sequence-v6/${String(index + 1).padStart(2, '0')}${mobile ? '-mobile' : ''}.webp?v=6`;
       }
     };
 

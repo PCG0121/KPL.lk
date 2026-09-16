@@ -6,6 +6,8 @@ import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import PlantationSequence from './PlantationSequence';
 import styles from './EditorialHero.module.css';
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 const ease = [0.22, 1, 0.36, 1] as const;
 const titles = [
   ['Our Core Business', 'Coconut Based Farming System'],
@@ -37,7 +39,7 @@ export default function EditorialHero({ headerMarker }: { headerMarker: RefObjec
       <span ref={headerMarker} className={styles.headerMarker} aria-hidden="true" />
       <div className={styles.hero}>
       <div className={styles.background}>
-        <picture><source media="(max-width: 767px)" srcSet="/hero-sequence-v6/01-mobile.webp?v=6" /><img src="/hero-sequence-v6/01.webp?v=6" alt="A coconut seedling growing in rich plantation soil" className={styles.landscape} fetchPriority="high" decoding="async" /></picture>
+        <picture><source media="(max-width: 767px)" srcSet={`${basePath}/hero-sequence-v6/01-mobile.webp?v=6`} /><img src={`${basePath}/hero-sequence-v6/01.webp?v=6`} alt="A coconut seedling growing in rich plantation soil" className={styles.landscape} fetchPriority="high" decoding="async" /></picture>
         <PlantationSequence enabled={scrubEnabled} track={track} progress={progress} chapter={chapter} className={styles.canvas} onChapterChange={setActiveChapter} />
       </div>
       <div className={styles.shade} aria-hidden="true" />
