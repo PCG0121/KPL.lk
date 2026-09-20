@@ -25,3 +25,35 @@
 .cinematic-header .mobile-nav{background:#173b2f;color:#f7f5eb;border-color:#d9e3cf24}
 .cinematic-header .mobile-nav a{border-color:#d9e3cf24}
 @media(prefers-reduced-motion:reduce){.header.cinematic-header,.cinematic-header .store-button{transition:none}}
+/* ---------------------------------------------------------------------------
+   Scroll-driven motion — pure CSS, no JavaScript, no scroll listeners.
+
+   Two keyframes carry the whole site: `rise` for blocks and cards, `mask-up`
+   for section headings (a real clip-path mask wipe, not just a fade).
+
+   Authoring contract: the SETTLED state is the element's default style and the
+   keyframes only declare `from`. That makes the fallback correct by default —
+   a browser without `animation-timeline` runs the animation on a zero-length
+   clock, the fill mode applies the end state, and the content is simply visible.
+   Reduced-motion is covered by the global kill-switch at the top of this file.
+   The animations run off the main thread because only opacity, transform and
+   clip-path are involved.
+
+   Note: `overflow: clip` (not `hidden`) must be used on any scrolling ancestor
+   of these elements. `overflow: hidden` creates a scroll container, which would
+   anchor the view() timeline to an element that never scrolls and freeze the
+   content in its hidden start state.
+   --------------------------------------------------------------------------- */
+@keyframes rise{from{opacity:0;transform:translate3d(0,20px,0)}}
+@keyframes mask-up{from{clip-path:inset(0 0 100% 0);transform:translate3d(0,.3em,0)}}
+
+.reveal{animation-name:rise;animation-duration:auto;animation-timing-function:cubic-bezier(.22,1,.36,1);animation-fill-mode:both;animation-timeline:view();animation-range:entry 0% cover 24%}
+h2{animation-name:mask-up;animation-duration:auto;animation-timing-function:cubic-bezier(.22,1,.36,1);animation-fill-mode:both;animation-timeline:view();animation-range:entry 8% cover 30%}
+
+/* Cascade for siblings in a row or grid: each child enters a little later. */
+.stagger>*:nth-child(2){animation-range:entry 4% cover 28%}
+.stagger>*:nth-child(3){animation-range:entry 8% cover 32%}
+.stagger>*:nth-child(4){animation-range:entry 12% cover 36%}
+.stagger>*:nth-child(5){animation-range:entry 16% cover 40%}
+.stagger>*:nth-child(6){animation-range:entry 20% cover 44%}
+

@@ -1,6 +1,5 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight, Sprout } from 'lucide-react';
 import styles from './OurBusiness.module.css';
 
@@ -33,17 +32,9 @@ const wide = {
   alt: 'Intercrops, illustrative plantation photography',
 };
 
-const ease = [0.22, 1, 0.36, 1] as const;
 const total = String(cards.length + 2).padStart(2, '0');
 
 export default function OurBusiness() {
-  const reduced = useReducedMotion();
-  const reveal = (delay = 0) => ({
-    initial: reduced ? false as const : { opacity: 0, y: 16 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.15 },
-    transition: { duration: reduced ? 0 : 0.55, delay: reduced ? 0 : delay, ease },
-  });
   const link = (item: { name: string; path: string }) => ({
     href: `${official}${item.path}`,
     target: '_blank' as const,
@@ -54,7 +45,7 @@ export default function OurBusiness() {
   return (
     <section id="business" className={`${styles.section} section`} aria-labelledby="business-heading">
       <div className="wrap">
-        <motion.div {...reveal()} className={styles.head}>
+        <div className={`${styles.head} reveal`}>
           <div>
             <div className={`eyebrow ${styles.eyebrow}`}><span />OUR BUSINESS</div>
             <h2 id="business-heading">One landscape.<br /><em>A world of possibility.</em></h2>
@@ -63,9 +54,9 @@ export default function OurBusiness() {
             <span className={styles.chip}>{total} CROP CATEGORIES</span>
             <p>Coconut at our core. A rich variety of crops around it. Explore the produce and natural materials grown across our estates.</p>
           </div>
-        </motion.div>
-        <div className={styles.bento}>
-          <motion.a {...reveal()} {...link(feature)} className={`${styles.tile} ${styles.featureTile}`}>
+        </div>
+        <div className={`${styles.bento} stagger`}>
+          <a {...link(feature)} className={`${styles.tile} ${styles.featureTile} reveal`}>
             <img src={feature.image} alt={feature.alt} loading="lazy" decoding="async" />
             <span className={styles.shade} aria-hidden="true" />
             <span className={styles.index}>01</span>
@@ -75,10 +66,10 @@ export default function OurBusiness() {
               <span className={styles.featureDesc}>{feature.description}</span>
               <span className={styles.cta}>Explore coconut products <ArrowUpRight size={17} /></span>
             </span>
-          </motion.a>
+          </a>
 
           {cards.map((item, position) => (
-            <motion.a key={item.name} {...reveal(0.05 * (position + 1))} {...link(item)} className={`${styles.tile} ${styles.card}`}>
+            <a key={item.name} {...link(item)} className={`${styles.tile} ${styles.card} reveal`}>
               <span className={styles.cardMedia}>
                 <img src={item.image} alt={item.alt} loading="lazy" decoding="async" />
                 <span className={styles.index}>{String(position + 2).padStart(2, '0')}</span>
@@ -89,10 +80,10 @@ export default function OurBusiness() {
                 <span className={styles.cardDesc}>{item.description}</span>
                 <span className={styles.cardArrow}><ArrowUpRight size={16} strokeWidth={1.7} /></span>
               </span>
-            </motion.a>
+            </a>
           ))}
 
-          <motion.a {...reveal(0.05)} {...link(wide)} className={`${styles.tile} ${styles.wideTile}`}>
+          <a {...link(wide)} className={`${styles.tile} ${styles.wideTile} reveal`}>
             <img src={wide.image} alt={wide.alt} loading="lazy" decoding="async" />
             <span className={styles.shade} aria-hidden="true" />
             <span className={styles.index}>{total}</span>
@@ -102,7 +93,7 @@ export default function OurBusiness() {
               <span className={styles.featureDesc}>{wide.description}</span>
             </span>
             <span className={`${styles.cta} ${styles.wideCta}`}><Sprout size={20} strokeWidth={1.3} /><span>Discover more</span><ArrowUpRight size={17} /></span>
-          </motion.a>
+          </a>
         </div>
       </div>
     </section>
