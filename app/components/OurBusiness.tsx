@@ -77,7 +77,6 @@ const items: BusinessItem[] = [
 
 export default function OurBusiness() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const total = items.length;
 
@@ -85,10 +84,9 @@ export default function OurBusiness() {
   const previous = useCallback(() => setCurrentIndex(index => (index - 1 + total) % total), [total]);
 
   useEffect(() => {
-    if (paused) return;
     const interval = window.setInterval(next, 5000);
     return () => window.clearInterval(interval);
-  }, [next, paused]);
+  }, [next]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -117,8 +115,6 @@ export default function OurBusiness() {
       id="business"
       className={`${styles.section} section`}
       aria-labelledby="business-heading"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
